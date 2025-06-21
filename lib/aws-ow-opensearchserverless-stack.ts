@@ -1,5 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
+import { parseCollectionType } from '../utils/collection-type-parse';
+import { parseCollectionStandbyReplicas } from '../utils/collection-standby-replicas-parse';
 
 export interface AwsOwOpensearchserverlessStackProps extends cdk.StackProps {
   /** Resource prefix for all AWS resources */
@@ -26,17 +28,17 @@ export interface AwsOwOpensearchserverlessStackProps extends cdk.StackProps {
   readonly collectionNames: string[];
   /** List of collection types */
   readonly collectionTypes: string[];
+  /** List of collection standby replicas */
+  readonly collectionStandbyReplicas: string[];
 }
 
 export class AwsOwOpensearchserverlessStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: AwsOwOpensearchserverlessStackProps) {
     super(scope, id, props);
 
-    // The code that defines your stack goes here
-
-    // example resource
-    // const queue = new sqs.Queue(this, 'AwsOwOpensearchserverlessQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
+    for (const [index, collectionName] of props.collectionNames.entries()) {
+      const collectionType = parseCollectionType(props.collectionTypes[index]);
+      const collectionStandbyReplicas = parseCollectionStandbyReplicas(props.collectionStandbyReplicas[index]);
+    }
   }
 }
