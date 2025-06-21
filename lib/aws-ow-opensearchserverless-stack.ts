@@ -24,6 +24,8 @@ export interface AwsOwOpensearchserverlessStackProps extends cdk.StackProps {
   readonly vpcPrivateSubnetRouteTableIds: string[];
   /** List of collection names */
   readonly collectionNames: string[];
+  /** List of collection types */
+  readonly collectionTypes: string[];
 }
 
 export class AwsOwOpensearchserverlessStack extends cdk.Stack {

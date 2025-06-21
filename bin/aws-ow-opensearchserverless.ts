@@ -26,6 +26,7 @@ checkEnvVariables('APP_NAME',
     'OWNER',
     'VPC_ID',
     'COLLECTION_NAMES',
+    'COLLECTION_TYPES'
 );
 
 const { CDK_DEFAULT_ACCOUNT: account } = process.env;
@@ -61,6 +62,7 @@ const stackProps: AwsOwOpensearchserverlessStackProps = {
     vpcPrivateSubnetAzs: process.env.VPC_PRIVATE_SUBNET_AZS!.split(','),
     vpcPrivateSubnetRouteTableIds: process.env.VPC_PRIVATE_SUBNET_ROUTE_TABLE_IDS!.split(','),
     collectionNames: process.env.COLLECTION_NAMES!.split(','),
+    collectionTypes: process.env.COLLECTION_TYPES!.split(','),
 };
 new AwsOwOpensearchserverlessStack(app, `${owner}-${deployEnvironment}-AwsOwOpensearchserverlessStack`, {
     ...stackProps,

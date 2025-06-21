@@ -9,7 +9,8 @@ declare module NodeJS {
         VPC_PRIVATE_SUBNET_IDS: string;
         VPC_PRIVATE_SUBNET_AZS: string;
         VPC_PRIVATE_SUBNET_ROUTE_TABLE_IDS: string;
-        RDS_PASSWORD: string;
         OWNER: string;
+        COLLECTION_NAMES: string;
+        COLLECTION_TYPES: string;
     }
 }
