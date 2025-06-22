@@ -51,6 +51,18 @@ export class AwsOwOpensearchserverlessStack extends cdk.Stack {
         description: `Type of the OpenSearch Serverless collection`,
         exportName: `${props.resourcePrefix}-${collectionName}-oss-collection-type`,
       });
+
+      new cdk.CfnOutput(this, `${collectionName}-oss-collection-endpoint`, {
+        value: ossCollection.collectionEndpoint,
+        description: `Endpoint of the OpenSearch Serverless collection`,
+        exportName: `${props.resourcePrefix}-${collectionName}-oss-collection-endpoint`,
+      });
+
+      new cdk.CfnOutput(this, `${collectionName}-oss-dashboard-endpoint`, {
+        value: ossCollection.dashboardEndpoint,
+        description: `Dashboard endpoint of the OpenSearch Serverless collection`,
+        exportName: `${props.resourcePrefix}-${collectionName}-oss-dashboard-endpoint`,
+      });
     }
   }
 }
