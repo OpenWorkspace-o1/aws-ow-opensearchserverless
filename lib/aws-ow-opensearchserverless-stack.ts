@@ -21,42 +21,35 @@ export class AwsOwOpensearchserverlessStack extends cdk.Stack {
         description: `OpenSearch Serverless collection for ${collectionName} with type ${collectionType} and standby replicas ${collectionStandbyReplicas}`,
       });
 
-      // Get the collection details
-      const vectorCollectionName = ossCollection.collectionName;
-      const vectorCollectionId = ossCollection.collectionId;
-      const vectorCollectionArn = ossCollection.collectionArn;
-      const vectorCollectionStandbyReplicas = ossCollection.standbyReplicas;
-      const vectorCollectionType = ossCollection.collectionType;
-
       // Create the outputs
-      new cdk.CfnOutput(this, `${collectionName}-vector-collection-name`, {
-        value: vectorCollectionName,
+      new cdk.CfnOutput(this, `${collectionName}-oss-collection-name`, {
+        value: ossCollection.collectionName,
         description: `Name of the OpenSearch Serverless collection`,
-        exportName: `${collectionName}-oss-collection-name`,
+        exportName: `${props.resourcePrefix}-${collectionName}-oss-collection-name`,
       });
 
-      new cdk.CfnOutput(this, `${collectionName}-vector-collection-id`, {
-        value: vectorCollectionId,
+      new cdk.CfnOutput(this, `${collectionName}-oss-collection-id`, {
+        value: ossCollection.collectionId,
         description: `ID of the OpenSearch Serverless collection`,
-        exportName: `${collectionName}-oss-collection-id`,
+        exportName: `${props.resourcePrefix}-${collectionName}-oss-collection-id`,
       });
 
-      new cdk.CfnOutput(this, `${collectionName}-vector-collection-arn`, {
-        value: vectorCollectionArn,
+      new cdk.CfnOutput(this, `${collectionName}-oss-collection-arn`, {
+        value: ossCollection.collectionArn,
         description: `ARN of the OpenSearch Serverless collection`,
-        exportName: `${collectionName}-oss-collection-arn`,
+        exportName: `${props.resourcePrefix}-${collectionName}-oss-collection-arn`,
       });
 
-      new cdk.CfnOutput(this, `${collectionName}-vector-collection-standby-replicas`, {
-        value: vectorCollectionStandbyReplicas,
+      new cdk.CfnOutput(this, `${collectionName}-oss-collection-standby-replicas`, {
+        value: ossCollection.standbyReplicas,
         description: `Standby replicas of the OpenSearch Serverless collection`,
-        exportName: `${collectionName}-oss-collection-standby-replicas`,
+        exportName: `${props.resourcePrefix}-${collectionName}-oss-collection-standby-replicas`,
       });
 
-      new cdk.CfnOutput(this, `${collectionName}-vector-collection-type`, {
-        value: vectorCollectionType,
+      new cdk.CfnOutput(this, `${collectionName}-oss-collection-type`, {
+        value: ossCollection.collectionType,
         description: `Type of the OpenSearch Serverless collection`,
-        exportName: `${collectionName}-oss-collection-type`,
+        exportName: `${props.resourcePrefix}-${collectionName}-oss-collection-type`,
       });
     }
   }

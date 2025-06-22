@@ -1,7 +1,6 @@
-import { AwsOwOpensearchserverlessStackVpcProps } from "./AwsOwOpensearchserverlessStackVpcProps";
 import * as cdk from "aws-cdk-lib";
 
-export interface AwsOwOpensearchserverlessStackProps extends cdk.StackProps, AwsOwOpensearchserverlessStackVpcProps {
+export interface AwsOwOpensearchserverlessStackProps extends cdk.StackProps {
     /** Resource prefix for all AWS resources */
     readonly resourcePrefix: string;
     /** AWS region where resources will be deployed */
@@ -10,6 +9,8 @@ export interface AwsOwOpensearchserverlessStackProps extends cdk.StackProps, Aws
     readonly deployEnvironment: string;
     /** Name of the application */
     readonly appName: string;
+    /** Owner or team responsible for the resources */
+    readonly owner: string;
     /** List of collection names */
     readonly collectionNames: string[];
     /** List of collection types */
