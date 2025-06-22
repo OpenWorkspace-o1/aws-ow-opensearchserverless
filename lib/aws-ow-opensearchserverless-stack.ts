@@ -2,35 +2,8 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { parseCollectionType } from '../utils/collection-type-parse';
 import { parseCollectionStandbyReplicas } from '../utils/collection-standby-replicas-parse';
-
-export interface AwsOwOpensearchserverlessStackProps extends cdk.StackProps {
-  /** Resource prefix for all AWS resources */
-  readonly resourcePrefix: string;
-  /** AWS region where resources will be deployed */
-  readonly deployRegion: string | undefined;
-  /** Deployment environment (e.g., development, staging, production) */
-  readonly deployEnvironment: string;
-  /** Name of the application */
-  readonly appName: string;
-  /** Type of VPC subnet (e.g., public, private) */
-  readonly vpcSubnetType: string;
-  /** Owner or team responsible for the resources */
-  readonly owner: string;
-  /** ID of the VPC where resources will be deployed */
-  readonly vpcId: string;
-  /** List of private subnet IDs in the VPC */
-  readonly vpcPrivateSubnetIds: string[];
-  /** List of Availability Zones for private subnets */
-  readonly vpcPrivateSubnetAzs: string[];
-  /** List of route table IDs for private subnets */
-  readonly vpcPrivateSubnetRouteTableIds: string[];
-  /** List of collection names */
-  readonly collectionNames: string[];
-  /** List of collection types */
-  readonly collectionTypes: string[];
-  /** List of collection standby replicas */
-  readonly collectionStandbyReplicas: string[];
-}
+import { VectorCollection } from '@cdklabs/generative-ai-cdk-constructs/lib/cdk-lib/opensearchserverless';
+import { AwsOwOpensearchserverlessStackProps } from './AwsOwOpensearchserverlessStackProps';
 
 export class AwsOwOpensearchserverlessStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: AwsOwOpensearchserverlessStackProps) {
@@ -39,6 +12,52 @@ export class AwsOwOpensearchserverlessStack extends cdk.Stack {
     for (const [index, collectionName] of props.collectionNames.entries()) {
       const collectionType = parseCollectionType(props.collectionTypes[index]);
       const collectionStandbyReplicas = parseCollectionStandbyReplicas(props.collectionStandbyReplicas[index]);
+
+      // Create the OpenSearch Serverless collection
+      const ossCollection = new VectorCollection(this, `${props.resourcePrefix}-${collectionName}-oss-collection`, {
+        collectionName: `${props.resourcePrefix}-${collectionName}`,
+        collectionType,
+        standbyReplicas: collectionStandbyReplicas,
+        description: `OpenSearch Serverless collection for ${collectionName} with type ${collectionType} and standby replicas ${collectionStandbyReplicas}`,
+      });
+
+      // Get the collection details
+      const vectorCollectionName = ossCollection.collectionName;
+      const vectorCollectionId = ossCollection.collectionId;
+      const vectorCollectionArn = ossCollection.collectionArn;
+      const vectorCollectionStandbyReplicas = ossCollection.standbyReplicas;
+      const vectorCollectionType = ossCollection.collectionType;
+
+      // Create the outputs
+      new cdk.CfnOutput(this, `${collectionName}-vector-collection-name`, {
+        value: vectorCollectionName,
+        description: `Name of the OpenSearch Serverless collection`,
+        exportName: `${collectionName}-oss-collection-name`,
+      });
+
+      new cdk.CfnOutput(this, `${collectionName}-vector-collection-id`, {
+        value: vectorCollectionId,
+        description: `ID of the OpenSearch Serverless collection`,
+        exportName: `${collectionName}-oss-collection-id`,
+      });
+
+      new cdk.CfnOutput(this, `${collectionName}-vector-collection-arn`, {
+        value: vectorCollectionArn,
+        description: `ARN of the OpenSearch Serverless collection`,
+        exportName: `${collectionName}-oss-collection-arn`,
+      });
+
+      new cdk.CfnOutput(this, `${collectionName}-vector-collection-standby-replicas`, {
+        value: vectorCollectionStandbyReplicas,
+        description: `Standby replicas of the OpenSearch Serverless collection`,
+        exportName: `${collectionName}-oss-collection-standby-replicas`,
+      });
+
+      new cdk.CfnOutput(this, `${collectionName}-vector-collection-type`, {
+        value: vectorCollectionType,
+        description: `Type of the OpenSearch Serverless collection`,
+        exportName: `${collectionName}-oss-collection-type`,
+      });
     }
   }
 }
