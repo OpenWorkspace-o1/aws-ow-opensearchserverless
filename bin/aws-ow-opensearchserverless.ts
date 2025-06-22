@@ -8,7 +8,8 @@ import { checkEnvVariables } from '../utils/check-environment-variable';
 import { ApplyTags } from '../utils/apply-tag';
 import { Aspects } from 'aws-cdk-lib';
 import { AwsSolutionsChecks } from 'cdk-nag';
-import { AwsOwOpensearchserverlessStack, AwsOwOpensearchserverlessStackProps } from '../lib/aws-ow-opensearchserverless-stack';
+import { AwsOwOpensearchserverlessStack } from '../lib/aws-ow-opensearchserverless-stack';
+import { AwsOwOpensearchserverlessStackProps } from '../lib/AwsOwOpensearchserverlessStackProps';
 
 dotenv.config(); // Load environment variables from .env file
 const app = new cdk.App();
