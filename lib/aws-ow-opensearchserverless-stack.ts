@@ -14,8 +14,8 @@ export class AwsOwOpensearchserverlessStack extends cdk.Stack {
       const collectionStandbyReplicas = parseCollectionStandbyReplicas(props.collectionStandbyReplicas[index]);
 
       // Create the OpenSearch Serverless collection
-      const ossCollection = new VectorCollection(this, `${props.resourcePrefix}-${collectionName}-oss-collection`, {
-        collectionName: `${props.resourcePrefix}-${collectionName}`,
+      const ossCollection = new VectorCollection(this, `${props.resourcePrefix}-oss-${collectionName}`, {
+        collectionName: `${props.appName}-${props.deployEnvironment}-${collectionName}`,
         collectionType,
         standbyReplicas: collectionStandbyReplicas,
         description: `OpenSearch Serverless collection for ${collectionName} with type ${collectionType} and standby replicas ${collectionStandbyReplicas}`,
